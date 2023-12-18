@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/18 15:16:38 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/18 16:01:56 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*fill_with_space(char *line, t_data *data)
 	return (line);
 }
 
-int fill_map(char *in_file, t_data *data) 
+int fill_map(char *in_file, t_data *data)
 {
     int fd;
     char *line;
@@ -53,13 +53,17 @@ int fill_map(char *in_file, t_data *data)
         if (!line)
             fail("Error strtrim (fill_map)");
         if (ft_strlen(line) < (size_t)data->x_lenm)
+        {
             line = fill_with_space(line, data);
+            free(tmp);
+        }
         data->map[y] = line;
         y++;
-        free(tmp);
         if (y < data->y_lenm)
             line = get_next_line(fd);
     }
+	if (line != NULL)
+        free(line);
     close(fd);
     if (y != data->y_lenm)
         fail("Map size does not match expected dimensions");

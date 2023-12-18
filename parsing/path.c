@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/18 12:53:14 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/18 15:59:34 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,21 +83,22 @@ int	parse_textures(char *file_d, t_data *data)
 	return (0);
 }
 
-char	*ignore_texture(int fd_cub) //line ...
+char *ignore_texture(int fd_cub)
 {
-	char	*line;
+    char *line;
 
-	while (1)
-	{
-		line = get_next_line(fd_cub);
-		if (!line)
-			fail("error line ignoretexture");
-		if (!(!ft_strncmp(line, "SO", 2) || !ft_strncmp(line, "NO", 2)
-				||!ft_strncmp(line, "WE", 2) || !ft_strncmp(line, "EA", 2)
-				|| !ft_strncmp(line, "F", 1) || !ft_strncmp(line, "C", 1)
-				|| !ft_strncmp(line, "D", 1) || !ft_strncmp(line, "\n", 1)))
-			break ;
-		free(line);
-	}
-	return (line);
+    while (1)
+    {
+        line = get_next_line(fd_cub);
+        if (!line)
+            fail("error line ignoretexture");
+        if (!(!ft_strncmp(line, "SO", 2) || !ft_strncmp(line, "NO", 2)
+                || !ft_strncmp(line, "WE", 2) || !ft_strncmp(line, "EA", 2)
+                || !ft_strncmp(line, "F", 1) || !ft_strncmp(line, "C", 1)
+                || !ft_strncmp(line, "D", 1) || !ft_strncmp(line, "\n", 1)))
+            break;
+        free(line);
+    }
+    return (line);
 }
+

@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/18 16:01:56 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/18 16:19:15 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,22 +101,21 @@ int	len_map(char *file_d, t_data *data)
 	line = ignore_texture(fd);
 	data->y_lenm = 0;
 	while ((line = get_next_line(fd)) != NULL)
-	{
-		tmp = line;
-		line = ft_strtrim(line, "\n");
-		free(tmp);
-		if (check_auth_char(line, data)) // +update de x_len
-		{
-			close(fd);
-			free(line);
-			fail("char bizarre found");
-		}
-		free(line);
-		data->y_lenm++; // y len 
-	}
-	data->y_lenm ++;
-	close(fd);
-	return (0);
+    {
+        tmp = line;
+        line = ft_strtrim(line, "\n");
+        free(tmp);
+        if (check_auth_char(line, data)) // +update de x_len
+        {
+            free(line);
+            close(fd);
+            fail("char bizarre found");
+        }
+        free(line);
+        data->y_lenm++; // y len 
+    }
+    close(fd);
+    return (0);
 }
 
 //fonction final

@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/18 16:19:15 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/18 16:26:14 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,5 +174,9 @@ int	main(int argc, char **argv)
 	printf("Map parsing successful!\n");
 	printf("Player Start Position: (%d, %d)\n", data.player_x, data.player_y);
 	printf("Map Dimensions: %d x %d\n", data.x_lenm, data.y_lenm);
+	for (int i = 0; i < data.y_lenm; i++) {
+        free(data.map[i]);
+    }
+    free(data.map);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/18 16:26:14 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/18 16:29:31 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,46 @@ char	*fill_with_space(char *line, t_data *data)
 	return (line);
 }
 
+// int fill_map(char *in_file, t_data *data)
+// {
+//     int fd;
+//     char *line;
+//     char *tmp;
+//     int y = 0;
+
+//     fd = open(in_file, O_RDONLY);
+//     if (fd < 0)
+//         fail("fail open (fill_map)");
+//     data->map = malloc(data->y_lenm * sizeof(char *));
+//     if (!data->map)
+//         fail("malloc error (fill_map)");
+//     line = ignore_texture(fd);
+//     if (!line)
+//         fail("No map found");
+//     while (y < data->y_lenm && line != NULL)
+//     {
+//         tmp = line;
+//         line = ft_strtrim(line, "\n");
+//         if (!line)
+//             fail("Error strtrim (fill_map)");
+//         if (ft_strlen(line) < (size_t)data->x_lenm)
+//         {
+//             line = fill_with_space(line, data);
+//             free(tmp);
+//         }
+//         data->map[y] = line;
+//         y++;
+//         if (y < data->y_lenm)
+//             line = get_next_line(fd);
+//     }
+// 	if (line != NULL)
+//         free(line);
+//     close(fd);
+//     if (y != data->y_lenm)
+//         fail("Map size does not match expected dimensions");
+//     return 0;
+// }
+
 int fill_map(char *in_file, t_data *data)
 {
     int fd;
@@ -40,33 +80,41 @@ int fill_map(char *in_file, t_data *data)
     fd = open(in_file, O_RDONLY);
     if (fd < 0)
         fail("fail open (fill_map)");
-    data->map = malloc(data->y_lenm * sizeof(char *));
-    if (!data->map)
-        fail("malloc error (fill_map)");
+
     line = ignore_texture(fd);
     if (!line)
         fail("No map found");
+
     while (y < data->y_lenm && line != NULL)
     {
         tmp = line;
         line = ft_strtrim(line, "\n");
         if (!line)
             fail("Error strtrim (fill_map)");
+
         if (ft_strlen(line) < (size_t)data->x_lenm)
         {
-            line = fill_with_space(line, data);
+            char *new_line = fill_with_space(line, data);
             free(tmp);
+            tmp = line; // Maintenant tmp pointe sur l'ancien line
+            line = new_line;
         }
+
         data->map[y] = line;
         y++;
+
         if (y < data->y_lenm)
             line = get_next_line(fd);
     }
-	if (line != NULL)
+
+    if (line != NULL)
         free(line);
+
     close(fd);
+
     if (y != data->y_lenm)
         fail("Map size does not match expected dimensions");
+
     return 0;
 }
 

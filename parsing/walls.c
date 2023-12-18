@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   walls2.c                                           :+:      :+:    :+:   */
+/*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/18 13:55:17 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/18 15:43:06 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,40 +18,9 @@ int	player_pos(int x, int y, t_data *data)
 		fail("Multiple start position for player");
 	data->player_x = x;
 	data->player_y = y;
-	data->player_orientation = data->map[x][y];
-	data->map[x][y] = '0'; //espace navigable
+	data->player_orientation = data->map[y][x];
+	data->map[y][x] = '0'; //espace navigable
 	return (0);
-}
-
-int check_walls(t_data *data)
-{
-    int		x;
-	int		y;
-    char	i_char;
-
-    data->player_x = 0;
-    data->player_y = 0;
-    data->player_orientation = NORTH;
-
-    y = 1;
-    while (y < data->y_lenm - 1)
-    {
-        x = 1;
-        while (x < data->x_lenm - 1)
-        {
-            i_char = data->map[y][x];
-            if (i_char == 'N' || i_char == 'S' || i_char == 'W' || i_char == 'E')
-                player_pos(x, y, data);
-            x++;
-        }
-        y++;
-    }
-    if (cross_check(data) == -1)
-    {
-        fail("Not enough walls (cross_check)");
-        return (-1);
-    }
-    return (0);
 }
 
 // check vertical et horizontal, en croix 
@@ -85,4 +54,35 @@ int cross_check(t_data *data)
         y++;
     }
     return 0;
+}
+
+int check_walls(t_data *data)
+{
+    int		x;
+	int		y;
+    char	i_char;
+
+    data->player_x = 0;
+    data->player_y = 0;
+    data->player_orientation = NORTH;
+
+    y = 0;
+    while (y < data->y_lenm)
+    {
+        x = 0;
+        while (x < data->x_lenm)
+        {
+            i_char = data->map[y][x];
+            if (i_char == 'N' || i_char == 'S' || i_char == 'W' || i_char == 'E')
+                player_pos(x, y, data);
+            x++;
+        }
+        y++;
+    }
+    if (cross_check(data) == -1)
+    {
+        fail("Not enough walls (cross_check)");
+        return (-1);
+    }
+    return (0);
 }

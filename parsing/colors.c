@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   colors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
+/*   Updated: 2023/12/15 16:20:23 by Probook          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parse.h"
 
 int	get_rgb(int dir, char *line, t_data *data)
@@ -11,14 +23,14 @@ int	get_rgb(int dir, char *line, t_data *data)
 	{
 		data->colors.f_color = ft_strdup(tmp[1]);
 		if (data->colors.f_color == NULL)
-			fail("In get_color");
+			fail("In get_color floor");
 		data->colors.f_color[ft_strlen(tmp[1]) - 1] = 0;
 	}
 	else if (dir == CEILING)
 	{
 		data->colors.c_color = ft_strdup(tmp[1]);
 		if (data->colors.c_color == NULL)
-			fail("In get_color");
+			fail("In get_color ceiling");
 		data->colors.c_color[ft_strlen(tmp[1]) - 1] = 0;
 	}
 	free(tmp[0]);
@@ -49,10 +61,10 @@ int	check_value(char *rgb_str, unsigned int i)
 	while (ft_isdigit(rgb_str[i]))
 		i++;
 	if (i - j == 0 || i - j > 3)
-		fail("No number or Number too big.");
+		fail("No number or too big.");
 	tmp_str = ft_substr(rgb_str, j, 3);
 	if (!tmp_str)
-		fail("Error allocating memory.");
+		fail("Error substr (check_value)");
 	tmp = ft_atoi(tmp_str);
 	free(tmp_str);
 	if (tmp < 0 || tmp > 255)
@@ -66,7 +78,7 @@ int	check_format(char *rgb_str)
 
 	i = 0;
 	if (!rgb_str)
-		fail("No color found.");
+		fail("No color?");
 	i = check_value(rgb_str, (unsigned int) i);
 	if (i < 0 || rgb_str[i++] != ',')
 		return (1);
@@ -89,11 +101,11 @@ int	convert_colors(t_data *data)
 		fail("Wrong format for floor color.");
 	tmp = ft_split(data->colors.f_color, ',');
 	if (tmp == NULL)
-		fail("In convert_colors");
+		fail("error split (convert_colors");
 	data->colors.floor = convert_color(tmp);
 	tmp = ft_split(data->colors.c_color, ',');
 	if (tmp == NULL)
-		fail("In convert_colors");
+		fail("error split (convert_colros)");
 	data->colors.ceiling = convert_color(tmp);
 	return (0);
 }

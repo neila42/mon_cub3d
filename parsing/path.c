@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/18 15:59:34 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/19 16:37:59 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@ int	get_texture_path(t_orientation dir, char *line, t_data *data)
 	return (0);
 }
 
+// ft_exit(data) //bonne pratique pour ne plus avoir des leaks tt le temps 
+// {
+// 	if (line)
+// 		free (line)
+// 	for (int i = 0; i < len; i++)
+// 	{
+// 		if (line[i])
+// 			free(line[i])
+// 	}
+// }
+
 int	get_path_texture(char *path, char **texture_path, char *error_message)
 {
 	*texture_path = ft_strdup(path);
@@ -47,6 +58,7 @@ int	get_path_texture(char *path, char **texture_path, char *error_message)
 	(*texture_path)[ft_strlen(*texture_path) - 1] = 0; //supp \n de fin
 	if (open(*texture_path, O_RDONLY) < 0)
 		fail(error_message);
+		free(*texture_path);
 	return (0);
 }
 
@@ -96,8 +108,8 @@ char *ignore_texture(int fd_cub)
                 || !ft_strncmp(line, "WE", 2) || !ft_strncmp(line, "EA", 2)
                 || !ft_strncmp(line, "F", 1) || !ft_strncmp(line, "C", 1)
                 || !ft_strncmp(line, "D", 1) || !ft_strncmp(line, "\n", 1)))
-            break;
-        free(line);
+			break;
+		free(line);
     }
     return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/18 16:29:31 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/19 16:31:23 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,46 +30,6 @@ char	*fill_with_space(char *line, t_data *data)
 	return (line);
 }
 
-// int fill_map(char *in_file, t_data *data)
-// {
-//     int fd;
-//     char *line;
-//     char *tmp;
-//     int y = 0;
-
-//     fd = open(in_file, O_RDONLY);
-//     if (fd < 0)
-//         fail("fail open (fill_map)");
-//     data->map = malloc(data->y_lenm * sizeof(char *));
-//     if (!data->map)
-//         fail("malloc error (fill_map)");
-//     line = ignore_texture(fd);
-//     if (!line)
-//         fail("No map found");
-//     while (y < data->y_lenm && line != NULL)
-//     {
-//         tmp = line;
-//         line = ft_strtrim(line, "\n");
-//         if (!line)
-//             fail("Error strtrim (fill_map)");
-//         if (ft_strlen(line) < (size_t)data->x_lenm)
-//         {
-//             line = fill_with_space(line, data);
-//             free(tmp);
-//         }
-//         data->map[y] = line;
-//         y++;
-//         if (y < data->y_lenm)
-//             line = get_next_line(fd);
-//     }
-// 	if (line != NULL)
-//         free(line);
-//     close(fd);
-//     if (y != data->y_lenm)
-//         fail("Map size does not match expected dimensions");
-//     return 0;
-// }
-
 int fill_map(char *in_file, t_data *data)
 {
     int fd;
@@ -80,41 +40,37 @@ int fill_map(char *in_file, t_data *data)
     fd = open(in_file, O_RDONLY);
     if (fd < 0)
         fail("fail open (fill_map)");
-
+    data->map = malloc(data->y_lenm * sizeof(char *));
+    if (!data->map)
+        fail("malloc error (fill_map)");
     line = ignore_texture(fd);
     if (!line)
-        fail("No map found");
-
+	{
+		free(line);
+		fail("No map found");
+	}
     while (y < data->y_lenm && line != NULL)
     {
         tmp = line;
         line = ft_strtrim(line, "\n");
         if (!line)
-            fail("Error strtrim (fill_map)");
-
+			fail("Error strtrim (fill_map)");
         if (ft_strlen(line) < (size_t)data->x_lenm)
         {
-            char *new_line = fill_with_space(line, data);
-            free(tmp);
-            tmp = line; // Maintenant tmp pointe sur l'ancien line
-            line = new_line;
+            line = fill_with_space(line, data);
+            // free(tmp);
         }
-
+		free(tmp);
         data->map[y] = line;
         y++;
-
         if (y < data->y_lenm)
             line = get_next_line(fd);
     }
-
-    if (line != NULL)
-        free(line);
-
+	if (line != NULL)
+        // free(line);
     close(fd);
-
     if (y != data->y_lenm)
         fail("Map size does not match expected dimensions");
-
     return 0;
 }
 
@@ -147,7 +103,8 @@ int	len_map(char *file_d, t_data *data)
 	if (fd < 0)
 		fail("can't open file");
 	line = ignore_texture(fd);
-	data->y_lenm = 0;
+	free(line);
+	data->y_lenm = 1;
 	while ((line = get_next_line(fd)) != NULL)
     {
         tmp = line;
@@ -171,7 +128,7 @@ int parse_map(char *file_d, t_data *data)
 {
 	int	fd;
 	int	i;
-
+	
 	i = 0;
 	if (reverse_strncmp(file_d, ".cub", 4) != 0)
 		fail("map not a .cub file");
@@ -185,6 +142,7 @@ int parse_map(char *file_d, t_data *data)
 	free(data->colors.f_color);
 	free(data->colors.c_color);
 	data->map = malloc(data->y_lenm * sizeof(char *));
+	printf("%d", data->y_lenm);
 	while (i < data->y_lenm)
 	{
 		data->map[i] = calloc(data->x_lenm, sizeof(char));
@@ -192,10 +150,16 @@ int parse_map(char *file_d, t_data *data)
 	}
 	if (!data->map)
 		fail("Error when allocating map memory");
+	for (int i = 0; i < data->y_lenm; i++) {
+		printf("HALLO1111");
+        free(data->map[i]);
+		printf("HALLO");
+    }
+	free(data->map);
 	if (fill_map(file_d, data) != 0)
 		fail("Error filling the map");
-	printf("%d\n %d\n", data->x_lenm, data->y_lenm); // a enlever apres
 	print_map(data->map, data->y_lenm, data->x_lenm); // a enlever apres
+	printf("%d\n %d\n", data->x_lenm, data->y_lenm); // a enlever apres
 	if (check_walls(data) != 0)
     	fail("Error not enough walls in map");
 	if (data->player_x == 0 || data->player_y == 0)
@@ -208,6 +172,8 @@ int parse_map(char *file_d, t_data *data)
 int	main(int argc, char **argv) 
 {
 	t_data	data;
+
+	// sleep(10);
 
 	if (argc != 2)
 	{
@@ -223,8 +189,11 @@ int	main(int argc, char **argv)
 	printf("Player Start Position: (%d, %d)\n", data.player_x, data.player_y);
 	printf("Map Dimensions: %d x %d\n", data.x_lenm, data.y_lenm);
 	for (int i = 0; i < data.y_lenm; i++) {
+		printf("HALLO1111");
         free(data.map[i]);
+		printf("HALLO");
     }
+	printf("HALLO3333");
     free(data.map);
 	return (0);
 }

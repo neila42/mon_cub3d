@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/19 16:37:59 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/26 16:27:35 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,37 +62,61 @@ int	get_path_texture(char *path, char **texture_path, char *error_message)
 	return (0);
 }
 
-int	parse_textures(char *file_d, t_data *data)
+int parse_textures(char *file_d, t_data *data)
 {
-	int		fd;
-	char	*line;
+    int     fd;
+    int     line_counter;
+    char    *line;
+    char    *trimmed_line;
 
-	fd = open(file_d, O_RDONLY);
-	if (fd < 0)
-		fail("Error opening file (parse_texture)");
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		if (!ft_strncmp(line, "NO", 2))
-			get_texture_path(NORTH, line, data);
-		else if (!ft_strncmp(line, "SO", 2))
-			get_texture_path(SOUTH, line, data);
-		else if (!ft_strncmp(line, "EA", 2))
-			get_texture_path(EAST, line, data);
-		else if (!ft_strncmp(line, "WE", 2))
-			get_texture_path(WEST, line, data);
-		else if (!ft_strncmp(line, "D", 1))
-			get_texture_path(DOOR, line, data);
-		else if (!ft_strncmp(line, "C", 1))
-			get_rgb(CEILING, line, data);
-		else if (!ft_strncmp(line, "F", 1))
-			get_rgb(FLOOR, line, data);
-		free(line);
-	}
-	close(fd);
-	return (0);
+    line_counter = 0;
+    fd = open(file_d, O_RDONLY);
+    if (fd < 0)
+        fail("Error opening file (parse_texture)");
+    while (1)
+    {
+        line = get_next_line(fd);
+        if (!line)
+            break;
+        trimmed_line = line;
+        while (*trimmed_line == ' ' || *trimmed_line == '\t')
+            trimmed_line++;
+        if (!ft_strncmp(trimmed_line, "NO", 2)) 
+        {
+            get_texture_path(NORTH, trimmed_line, data);
+            line_counter++;
+        }
+        else if (!ft_strncmp(trimmed_line, "SO", 2)) 
+        {
+            get_texture_path(SOUTH, trimmed_line, data);
+            line_counter++;
+        }
+        else if (!ft_strncmp(trimmed_line, "WE", 2)) 
+        {
+            get_texture_path(WEST, trimmed_line, data);
+            line_counter++;
+        }
+        else if (!ft_strncmp(trimmed_line, "EA", 2)) 
+        {
+            get_texture_path(EAST, trimmed_line, data);
+            line_counter++;
+        }
+        else if (!ft_strncmp(trimmed_line, "F", 1)) 
+        {
+            get_rgb(FLOOR, trimmed_line, data);
+            line_counter++;
+        }
+        else if (!ft_strncmp(trimmed_line, "C", 1)) 
+        {
+            get_rgb(CEILING, trimmed_line, data);
+            line_counter++;
+        }
+        free(line);
+    }
+    close(fd);
+    if (line_counter != 6)
+        fail("Incorrect number of texture/color lines");
+    return 0;
 }
 
 char *ignore_texture(int fd_cub)
@@ -107,7 +131,8 @@ char *ignore_texture(int fd_cub)
         if (!(!ft_strncmp(line, "SO", 2) || !ft_strncmp(line, "NO", 2)
                 || !ft_strncmp(line, "WE", 2) || !ft_strncmp(line, "EA", 2)
                 || !ft_strncmp(line, "F", 1) || !ft_strncmp(line, "C", 1)
-                || !ft_strncmp(line, "D", 1) || !ft_strncmp(line, "\n", 1)))
+                || !ft_strncmp(line, "D", 1) || !ft_strncmp(line, "\n", 1)
+                || !ft_strncmp(line, "\t", 1)))
 			break;
 		free(line);
     }

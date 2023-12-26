@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/18 15:43:06 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/26 16:30:23 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int cross_check(t_data *data)
                     data->map[y - 1][x] == ' ' ||
                     data->map[y + 1][x] == ' ')
                 {
-                    printf("Error at [%d][%d]\n", y, x);
                     return -1;
                 }
             }

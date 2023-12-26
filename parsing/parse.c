@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/19 16:31:23 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/26 16:32:11 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int	check_auth_char(char *line, t_data *data)
 	while (line && *ptr)
 	{
 		if (!(*ptr == '0' || *ptr == '1' || *ptr == 'N' || *ptr == 'S' ||
-				*ptr == 'W' || *ptr == 'E' || *ptr == ' '))
+				*ptr == 'W' || *ptr == 'E' || *ptr == ' ' || *ptr == '\t' 
+				|| *ptr == 'F' || *ptr == 'C'))
 			return (1);
 		ptr++;
 	}
@@ -142,7 +143,7 @@ int parse_map(char *file_d, t_data *data)
 	free(data->colors.f_color);
 	free(data->colors.c_color);
 	data->map = malloc(data->y_lenm * sizeof(char *));
-	printf("%d", data->y_lenm);
+	// printf("%d", data->y_lenm);
 	while (i < data->y_lenm)
 	{
 		data->map[i] = calloc(data->x_lenm, sizeof(char));
@@ -151,15 +152,13 @@ int parse_map(char *file_d, t_data *data)
 	if (!data->map)
 		fail("Error when allocating map memory");
 	for (int i = 0; i < data->y_lenm; i++) {
-		printf("HALLO1111");
         free(data->map[i]);
-		printf("HALLO");
     }
 	free(data->map);
 	if (fill_map(file_d, data) != 0)
 		fail("Error filling the map");
 	print_map(data->map, data->y_lenm, data->x_lenm); // a enlever apres
-	printf("%d\n %d\n", data->x_lenm, data->y_lenm); // a enlever apres
+	// printf("%d %d\n", data->x_lenm, data->y_lenm); // a enlever apres
 	if (check_walls(data) != 0)
     	fail("Error not enough walls in map");
 	if (data->player_x == 0 || data->player_y == 0)
@@ -189,11 +188,8 @@ int	main(int argc, char **argv)
 	printf("Player Start Position: (%d, %d)\n", data.player_x, data.player_y);
 	printf("Map Dimensions: %d x %d\n", data.x_lenm, data.y_lenm);
 	for (int i = 0; i < data.y_lenm; i++) {
-		printf("HALLO1111");
         free(data.map[i]);
-		printf("HALLO");
     }
-	printf("HALLO3333");
     free(data.map);
 	return (0);
 }

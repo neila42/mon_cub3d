@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/26 16:27:35 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/27 16:36:39 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,20 +122,32 @@ int parse_textures(char *file_d, t_data *data)
 char *ignore_texture(int fd_cub)
 {
     char *line;
+    char *ptr;
 
     while (1)
     {
         line = get_next_line(fd_cub);
         if (!line)
             fail("error line ignoretexture");
-        if (!(!ft_strncmp(line, "SO", 2) || !ft_strncmp(line, "NO", 2)
-                || !ft_strncmp(line, "WE", 2) || !ft_strncmp(line, "EA", 2)
-                || !ft_strncmp(line, "F", 1) || !ft_strncmp(line, "C", 1)
-                || !ft_strncmp(line, "D", 1) || !ft_strncmp(line, "\n", 1)
-                || !ft_strncmp(line, "\t", 1)))
-			break;
-		free(line);
+        ptr = line;
+        while (*ptr == ' ' || *ptr == '\t')
+            ptr++;
+        if (ft_strncmp(ptr, "NO ", 3) == 0 || ft_strncmp(ptr, "SO ", 3) == 0 ||
+            ft_strncmp(ptr, "WE ", 3) == 0 || ft_strncmp(ptr, "EA ", 3) == 0 ||
+            strncmp(ptr, "F ", 2) == 0 || ft_strncmp(ptr, "C ", 2) == 0)
+        {
+            free(line);
+            continue;
+        }
+        if (!(*ptr == '0' || *ptr == '1' || *ptr == 'N' || *ptr == 'S' ||
+              *ptr == 'W' || *ptr == 'E'))
+        {
+            free(line);
+            continue;
+        }
+        return line;
     }
-    return (line);
 }
+
+
 

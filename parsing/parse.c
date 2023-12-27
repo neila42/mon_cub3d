@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/26 16:32:11 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/27 16:31:26 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,11 @@ int	check_auth_char(char *line, t_data *data)
 	while (line && *ptr)
 	{
 		if (!(*ptr == '0' || *ptr == '1' || *ptr == 'N' || *ptr == 'S' ||
-				*ptr == 'W' || *ptr == 'E' || *ptr == ' ' || *ptr == '\t' 
-				|| *ptr == 'F' || *ptr == 'C'))
-			return (1);
+				*ptr == 'W' || *ptr == 'E' || *ptr == ' ' || *ptr == '\t'))
+			{
+				printf("ERROR : %c\n", *ptr);
+				return (1);
+			}
 		ptr++;
 	}
 	len = ft_strlen(line);

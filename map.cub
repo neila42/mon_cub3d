@@ -1,5 +1,6 @@
 NO ./parsing/assets/coin.xpm
 SO ./parsing/assets/player.xpm
+
 WE ./parsing/assets/wall.xpm
 EA ./parsing/assets/floor.xpm
 

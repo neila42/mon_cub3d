@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/15 16:27:45 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/27 17:33:06 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ int	reverse_strncmp(const char *s1, const char *s2, size_t n)
 }
 
 // fonction de test seulement c'est pour ca je laisse mes for
-void	print_map(char **map, int rows, int cols) 
-{
-	for (int y = 0; y < rows; y++)
-	{
-		for (int x = 0; x < cols; x++)
-			printf("%c", map[y][x]);
-		printf("\n");
-	}
-}
+// void	print_map(char **map, int rows, int cols)
+// {
+// 	for (int y = 0; y < rows; y++)
+// 	{
+// 		for (int x = 0; x < cols; x++)
+// 			printf("%c", map[y][x]);
+// 		printf("\n");
+// 	}
+// }
 
 void	fail(char *str)
 {

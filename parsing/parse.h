@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/18 13:19:12 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/27 17:33:28 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		convert_color(char **c);
 int		convert_colors(t_data *data);
 int		check_format(char *rgb_str);
 int		check_value(char *rgb_str, unsigned int i);
-void	print_map(char **map, int rows, int cols);
+// void	print_map(char **map, int rows, int cols);
 int		cross_check(t_data *data);
 
 #endif

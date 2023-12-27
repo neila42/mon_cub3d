@@ -6,7 +6,7 @@
 /*   By: Probook <Probook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:10:31 by nmuminov          #+#    #+#             */
-/*   Updated: 2023/12/27 17:08:40 by Probook          ###   ########.fr       */
+/*   Updated: 2023/12/27 17:09:59 by Probook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	check_format(char *rgb_str)
 	if (i < 0 || rgb_str[i++] != ',')
 		return (1);
 	i = check_value(rgb_str, (unsigned int) i);
-	if (i < 0) // si check value return 1
+	if (i < 0)
 		return (1);
 	if (rgb_str[i] != '\0')
 		return (1);
